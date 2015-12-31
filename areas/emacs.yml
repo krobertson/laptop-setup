@@ -1,0 +1,26 @@
+---
+- name: install emacs
+  hosts: all
+
+  tasks:
+  - pacman: name=emacs
+
+  - shell: curl -fsSkL https://raw.github.com/cask/cask/master/go | python && rm -rf /home/ken/.emacs.d
+      chdir=/home/ken
+      creates=/home/ken/.cask/bin/cask
+    become: yes
+    become_user: ken
+
+  - git: repo=ssh://git@github.com/krobertson/emacs.d.git
+      dest=/home/ken/.emacs.d
+      accept_hostkey=yes
+    become: yes
+    become_user: ken
+    notify:
+    - run cask install
+
+  handlers:
+  - name: run cask install
+    shell: /home/ken/.cask/bin/cask install chdir=/home/ken/.emacs.d
+    become: yes
+    become_user: ken

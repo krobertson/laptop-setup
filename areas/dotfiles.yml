@@ -1,0 +1,31 @@
+---
+- name: install personal stuff
+  hosts: all
+
+  tasks:
+  - git: repo=ssh://git@github.com/krobertson/dotfiles.git
+      dest=/home/ken/.dotfiles
+      accept_hostkey=yes
+    become: yes
+    become_user: ken
+    notify:
+    - run dotfiles install
+
+  - pacman: name=zsh
+  - git: repo=https://github.com/robbyrussell/oh-my-zsh.git
+      dest=/home/ken/.oh-my-zsh
+    become: yes
+    become_user: ken
+  - user: name=ken shell=/usr/bin/zsh
+
+  - name: AWS CodeCommit
+    ssh_config: host=codecommit
+                hostname=git-codecommit.us-east-1.amazonaws.com
+                remote_user=APKAI3TCSQNRU2KX6QUQ
+                user=ken state=present
+
+  handlers:
+  - name: run dotfiles install
+    shell: rake symlink chdir=/home/ken/.dotfiles
+    become: yes
+    become_user: ken

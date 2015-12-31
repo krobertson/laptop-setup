@@ -1,0 +1,53 @@
+---
+- name: configure hardware
+  hosts: all
+
+  tasks:
+    # configure the root mount
+  - mount: name=/ src=/dev/mapper/vgcrypt-root fstype=ext4 opts="defaults,noatime,data=ordered,discard" state=present
+
+    # configure swap
+  - mount: name=none src=/dev/mapper/vgcrypt-swap fstype=swap state=present
+
+    # sysctl
+  - sysctl: name="{{ item.name }}" value={{ item.value }} sysctl_set=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
+    with_items:
+      # swappiness
+    - { name: "vm.swappiness", value: 1 }
+    - { name: "vm.vfs_cache_pressure", value: 50 }
+
+    # Module configuration
+  - template: src=templates/module_i915.conf dest=/etc/modprobe.d/i915.conf owner=root group=root mode=0644
+  - template: src=templates/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
+  - template: src=templates/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
+
+    # Power management
+  - pacman: name=tlp
+  - template: src=templates/tlp.conf dest=/etc/default/tlp owner=root group=root mode=0644
+  - service: name=tlp enabled=yes state=started
+
+    # Install and configure network manager
+  - pacman: name=networkmanager
+  - pacman: name=network-manager-applet
+  - pacman: name=wpa_supplicant
+  - service: name=NetworkManager enabled=yes state=started
+
+    # Plymouth for graphical boot
+  - packer: name=plymouth
+  - packer: name=plymouth-theme-dark-arch
+  - pacman: name=ttf-dejavu # needed by plymouth
+  - template: src=templates/plymouthd.conf dest=/etc/plymouth/plymouthd.conf owner=root group=root mode=0644
+
+    # boot stuff
+  - template: src=templates/vconsole.conf dest=/etc/vconsole.conf owner=root group=root mode=0644
+  - template: src=templates/mkinitcpio.conf dest=/etc/mkinitcpio.conf owner=root group=root mode=0644
+    notify:
+    - build initramfs
+
+    # enable mdns
+  - pacman: name=nss-mdns
+  - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
+
+  handlers:
+  - name: build initramfs
+    shell: mkinitcpio -p linux-mainline

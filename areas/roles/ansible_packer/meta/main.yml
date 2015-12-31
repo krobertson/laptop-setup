@@ -1,0 +1,15 @@
+galaxy_info:
+  author: Codey Oxley
+  description: Ansible glue for Archlinux packer
+  license: license (WTFPL)
+  min_ansible_version: 1.2
+  platforms:
+    - name: Archlinux
+  galaxy_tags:
+    - Archlinux
+    - packer
+    - packaging
+    - packages
+    - AUR
+    - yaourt
+dependencies: []

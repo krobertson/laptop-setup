@@ -1,0 +1,124 @@
+---
+- name: install apps
+  hosts: all
+
+  tasks:
+  - name: update pacman.conf
+    template: src=templates/pacman.conf dest=/etc/pacman.conf owner=root group=root mode=0644
+    notify: update pacman caches
+  - meta: flush_handlers
+
+  - name: install common packages
+    pacman: name={{ item }}
+    with_items:
+    - arandr
+    - brasero
+    - chrpath
+    - cmake
+    - colordiff
+    - cpio
+    - cups
+    - diffstat
+    - docker
+    - dosfstools
+    - exfat-utils
+    - flashplugin
+    - fuse-exfat
+    - gimp
+    - go
+    - gparted
+    - gperftools
+    - gptfdisk
+    - graphviz
+    - gvim
+    - handbrake
+    - intltool
+    - jq
+    - libcap
+    - libdvdcss
+    - libreoffice-fresh
+    - lxrandr
+    - meld
+    - mercurial
+    - mkvtoolnix-gui
+    - mtpfs
+    - mtr
+    - net-tools
+    - networkmanager-openvpn
+    - nfs-utils
+    - nodejs
+    - ogmrip
+    - openbsd-netcat
+    - perl-image-exiftool
+    - phantomjs
+    - postgresql
+    - powertop
+    - protobuf
+    - qemu
+    - qrencode
+    - qt5-webkit
+    - rawtherapee
+    - remmina
+    - s3cmd
+    - sg3_utils
+    - shutter
+    - simple-scan
+    - simplescreenrecorder
+    - sshfs
+    - strace
+    - the_silver_searcher
+    - thunar
+    - thunar-archive-plugin
+    - thunar-volman
+    - tigervnc
+    - traceroute
+    - transmission-gtk
+    - udisks
+    - unetbootin
+    - vagrant
+    - vlc
+    - wireshark-cli
+    - wireshark-gtk
+    - xloadimage
+
+  - name: import keys needed for AUR packages
+    gpg_import: key_id="{{ item }}" servers=pgp.mit.edu
+    with_items:
+    - "456032D717A4CD9C" # pandoc-static
+    - "702353E0F7E48EDB" # ncurses5-compat-libs, needed for vmware-patch
+    become: yes
+    become_user: ken
+
+  - name: build common AUR packages
+    packer: name={{ item }}
+    with_items:
+    - dpkg
+    - dropbox
+    - git-crypt
+    - google-chrome
+    - google-talkplugin
+    - gtkterm-git
+    - ledger
+    - packer-io
+    - pandoc-static
+    - spotify-stable
+    - thunar-dropbox
+    #- vmware-ovftool
+    - vmware-patch
+    - xsnap
+    - zoom
+
+  - service: name=nfs-server enabled=yes
+  - service: name=docker enabled=yes state=started
+
+  - user: name=ken groups=docker append=yes
+
+  - name: create app symlinks
+    file: src=/usr/bin/{{ item.src }} dest=/usr/bin/{{ item.dest }} state=link
+    with_items:
+    - { src: google-chrome-stable, dest: google-chrome }
+    - { src: vim, dest: vi }
+
+  handlers:
+  - name: update pacman caches
+    pacman: update_cache=yes

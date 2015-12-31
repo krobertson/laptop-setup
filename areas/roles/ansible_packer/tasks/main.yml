@@ -1,0 +1,8 @@
+---
+- name: coxley.packer | install deps
+  pacman: name={{ item }} state=latest
+  with_items:
+    - jshon
+
+- name: coxley.packer | install packer
+  include: aur/pkg.yml pkg_name=packer-git
