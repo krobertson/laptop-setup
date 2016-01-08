@@ -48,6 +48,9 @@
   - pacman: name=nss-mdns
   - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
 
+    # allow non-root to access the KeepKey when plugged in
+  - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
+
   handlers:
   - name: build initramfs
     shell: mkinitcpio -p linux-mainline
