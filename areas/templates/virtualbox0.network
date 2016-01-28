@@ -1,0 +1,5 @@
+[Match]
+Name=virtualbox0
+
+[Network]
+Bridge=virbr0

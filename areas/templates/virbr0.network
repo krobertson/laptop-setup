@@ -1,0 +1,8 @@
+[Match]
+Name=virbr0
+
+[Network]
+IPForward=yes
+IPMasquerade=yes
+Address=10.100.0.1/24
+Gateway=

@@ -54,7 +54,6 @@
     - postgresql
     - powertop
     - protobuf
-    - qemu
     - qrencode
     - qt5-webkit
     - rawtherapee

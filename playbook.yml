@@ -15,7 +15,7 @@
 - include: areas/hardware.yml
 - include: areas/xorg.yml
 - include: areas/emacs.yml
-- include: areas/virtualbox.yml
+- include: areas/virtualization.yml
 - include: areas/dotfiles.yml
 - include: areas/ruby.yml
 - include: areas/apps.yml

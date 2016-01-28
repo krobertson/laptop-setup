@@ -1,0 +1,32 @@
+---
+- name: install virtualization
+  hosts: all
+
+  tasks:
+  - pacman: name=virtualbox
+  - pacman: name=virtualbox-host-dkms
+  - pacman: name=virtualbox-guest-dkms
+  - packer: name=virtualbox-host-modules
+  - template: src=templates/virtualbox.conf dest=/etc/modules-load.d/virtualbox.conf owner=root group=root mode=0644
+
+    # install qemu/kvm
+  - pacman: name=qemu
+  - pacman: name=virt-manager
+  - file: name=/etc/qemu owner=root group=kvm state=directory
+  - template: src=templates/qemu_bridge.conf dest=/etc/qemu/bridge.conf owner=root group=kvm mode=0640
+  - service: name=libvirtd enabled=yes state=started
+
+    # Setup and configure a bridge and tap device for virtualbox to use
+  - template: src=templates/virbr0.netdev dest=/etc/systemd/network/virbr0.netdev owner=root group=root mode=0644
+  - template: src=templates/virbr0.network dest=/etc/systemd/network/virbr0.network owner=root group=root mode=0644
+  - template: src=templates/virtualbox0.netdev dest=/etc/systemd/network/virtualbox0.netdev owner=root group=root mode=0644
+  - template: src=templates/virtualbox0.network dest=/etc/systemd/network/virtualbox0.network owner=root group=root mode=0644
+  - service: name=systemd-networkd enabled=yes state=started
+
+    # Install/configure dnsmasq to do dhcp on virbr0
+  - pacman: name=dnsmasq
+  - template: src=templates/dnsmasq.conf dest=/etc/dnsmasq.conf owner=root group=root mode=0644
+  - service: name=dnsmasq enabled=yes state=started
+
+    # Give myself access to the groups
+  - user: name=ken groups=vboxusers,kvm append=yes
