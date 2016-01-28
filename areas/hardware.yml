@@ -4,7 +4,8 @@
 
   tasks:
     # configure the root mount
-  - mount: name=/ src=/dev/mapper/vgcrypt-root fstype=ext4 opts="defaults,noatime,data=ordered,discard" state=present
+  - mount: name=/ src=/dev/mapper/vgcrypt-root fstype=ext4 opts="defaults,noatime,data=ordered" state=present
+  - service: name=fstrim.timer enabled=yes state=started
 
     # configure swap
   - mount: name=none src=/dev/mapper/vgcrypt-swap fstype=swap state=present
@@ -53,4 +54,4 @@
 
   handlers:
   - name: build initramfs
-    shell: mkinitcpio -p linux-mainline
+    shell: mkinitcpio -p linux
