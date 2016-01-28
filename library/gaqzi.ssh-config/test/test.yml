@@ -1,6 +1,0 @@
----
-
-- name: ssh_config
-  hosts: all
-  roles:
-    - normal-user
