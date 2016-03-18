@@ -6,7 +6,6 @@
   - pacman: name=virtualbox
   - pacman: name=virtualbox-host-dkms
   - pacman: name=virtualbox-guest-dkms
-  - packer: name=virtualbox-host-modules
   - template: src=templates/virtualbox.conf dest=/etc/modules-load.d/virtualbox.conf owner=root group=root mode=0644
 
     # install qemu/kvm
