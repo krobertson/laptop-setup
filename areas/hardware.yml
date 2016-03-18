@@ -21,6 +21,7 @@
   - template: src=templates/module_i915.conf dest=/etc/modprobe.d/i915.conf owner=root group=root mode=0644
   - template: src=templates/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
   - template: src=templates/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
+  - template: src=templates/module_psmouse.conf dest=/etc/modprobe.d/psmouse.conf owner=root group=root mode=0644
 
     # Power management
   - pacman: name=tlp
