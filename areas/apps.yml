@@ -11,6 +11,7 @@
   - name: install common packages
     pacman: name={{ item }}
     with_items:
+    - jdk7-openjdk
     - arandr
     - brasero
     - chrpath
@@ -19,6 +20,7 @@
     - cpio
     - cups
     - diffstat
+    - ditaa
     - docker
     - dosfstools
     - exfat-utils
