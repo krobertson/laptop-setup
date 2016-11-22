@@ -2,4 +2,4 @@
 - hosts: all
   roles:
   - role: ansible_packer
-    makepkg_nonroot_user: ken
+    ansible_ssh_user: ken

@@ -18,7 +18,6 @@
     - { name: "vm.vfs_cache_pressure", value: 50 }
 
     # Module configuration
-  - template: src=templates/module_i915.conf dest=/etc/modprobe.d/i915.conf owner=root group=root mode=0644
   - template: src=templates/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
   - template: src=templates/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
   - template: src=templates/module_psmouse.conf dest=/etc/modprobe.d/psmouse.conf owner=root group=root mode=0644
@@ -52,6 +51,10 @@
 
     # allow non-root to access the KeepKey when plugged in
   - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
+
+    # timesyncd for time synchronization
+  - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
+  - service: name=systemd-timesyncd enabled=yes state=started
 
   handlers:
   - name: build initramfs
