@@ -12,7 +12,6 @@
     pacman: name={{ item }}
     with_items:
     - jdk7-openjdk
-    - arandr
     - brasero
     - chrpath
     - cmake
@@ -24,8 +23,8 @@
     - docker
     - dosfstools
     - exfat-utils
+    - filelight
     - flashplugin
-    - fuse-exfat
     - gimp
     - go
     - gparted
@@ -39,7 +38,6 @@
     - libcap
     - libdvdcss
     - libreoffice-fresh
-    - lxrandr
     - meld
     - mercurial
     - mkvtoolnix-gui
@@ -48,23 +46,18 @@
     - net-tools
     - networkmanager-openvpn
     - nfs-utils
-    - nodejs
     - ogmrip
     - openbsd-netcat
     - pandoc
     - perl-image-exiftool
-    - phantomjs
     - postgresql
     - powertop
-    - protobuf
     - qrencode
     - qt5-webkit
     - rawtherapee
     - remmina
     - s3cmd
     - sg3_utils
-    - shutter
-    - simple-scan
     - simplescreenrecorder
     - sshfs
     - strace
@@ -81,7 +74,6 @@
     - vlc
     - wireshark-cli
     - wireshark-gtk
-    - xloadimage
     # aur deps
     - perl-test-pod
 
@@ -89,6 +81,7 @@
     gpg_import: key_id="{{ item }}" servers=pgp.mit.edu
     with_items:
     - "1EB2638FF56C0C53" # cower, needed for pacaur
+    - "702353E0F7E48EDB" # ncurses5-compat-libs, needed for vmware-patch
     become: yes
     become_user: ken
 
@@ -107,6 +100,7 @@
     - spotify
     - thunar-dropbox
     - vmware-ovftool
+    - vmware-patch
     - xsnap
     - zoom
 
