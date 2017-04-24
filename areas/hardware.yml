@@ -20,7 +20,7 @@
     # Module configuration
   - template: src=templates/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
   - template: src=templates/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
-  - template: src=templates/module_psmouse.conf dest=/etc/modprobe.d/psmouse.conf owner=root group=root mode=0644
+  - template: src=templates/module_blacklist.conf dest=/etc/modprobe.d/blacklist.conf owner=root group=root mode=0644
 
     # Power management
   - pacman: name=tlp
