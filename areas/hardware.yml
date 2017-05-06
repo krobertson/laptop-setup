@@ -10,13 +10,6 @@
     # configure swap
   - mount: name=none src=/dev/mapper/vgcrypt-swap fstype=swap state=present
 
-    # sysctl
-  - sysctl: name="{{ item.name }}" value={{ item.value }} sysctl_set=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
-    with_items:
-      # swappiness
-    - { name: "vm.swappiness", value: 1 }
-    - { name: "vm.vfs_cache_pressure", value: 50 }
-
     # Module configuration
   - template: src=templates/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
   - template: src=templates/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
@@ -26,12 +19,6 @@
   - pacman: name=tlp
   - template: src=templates/tlp.conf dest=/etc/default/tlp owner=root group=root mode=0644
   - service: name=tlp enabled=yes state=started
-
-    # Install and configure network manager
-  - pacman: name=networkmanager
-  - pacman: name=network-manager-applet
-  - pacman: name=wpa_supplicant
-  - service: name=NetworkManager enabled=yes state=started
 
     # Plymouth for graphical boot
   - packer: name=plymouth
@@ -45,16 +32,8 @@
     notify:
     - build initramfs
 
-    # enable mdns
-  - pacman: name=nss-mdns
-  - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
-
     # allow non-root to access the KeepKey when plugged in
   - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
-
-    # timesyncd for time synchronization
-  - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
-  - service: name=systemd-timesyncd enabled=yes state=started
 
   handlers:
   - name: build initramfs

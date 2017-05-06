@@ -12,10 +12,12 @@
 
   # Run installs from topic areas.
 - include: areas/aur.yml
-- include: areas/hardware.yml
+- include: areas/system.yml
+# - include: areas/hardware.yml
 - include: areas/xorg.yml
 - include: areas/emacs.yml
-- include: areas/virtualization.yml
+# - include: areas/virtualization.yml
 - include: areas/dotfiles.yml
-- include: areas/ruby.yml
-- include: areas/apps.yml
+#- include: areas/ruby.yml
+# - include: areas/apps.yml
+- include: areas/dev.yml

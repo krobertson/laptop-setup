@@ -1,0 +1,25 @@
+---
+- name: configure base system
+  hosts: all
+
+  tasks:
+    # sysctl
+  - sysctl: name="{{ item.name }}" value={{ item.value }} sysctl_set=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
+    with_items:
+      # swappiness
+    - { name: "vm.swappiness", value: 1 }
+    - { name: "vm.vfs_cache_pressure", value: 50 }
+
+    # Install and configure network manager
+  #- pacman: name=networkmanager
+  #- pacman: name=network-manager-applet
+  #- pacman: name=wpa_supplicant
+  #- service: name=NetworkManager enabled=yes state=started
+
+    # enable mdns
+  - pacman: name=nss-mdns
+  - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
+
+    # timesyncd for time synchronization
+  - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
+  - service: name=systemd-timesyncd enabled=yes state=started

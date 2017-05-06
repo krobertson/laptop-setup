@@ -1,0 +1,85 @@
+---
+- name: install dev apps
+  hosts: all
+
+  tasks:
+  - name: install common dev packages
+    pacman: name={{ item }}
+    with_items:
+    - jdk7-openjdk
+    - chrpath
+    - cmake
+    - colordiff
+    - cpio
+    - diffstat
+    - ditaa
+    - docker
+    - dosfstools
+    - exfat-utils
+    - filelight
+    - flashplugin
+    - go
+    - gparted
+    - gperftools
+    - gptfdisk
+    - graphviz
+    - gvim
+    - jq
+    - libcap
+    - meld
+    - mercurial
+    - mtr
+    - net-tools
+    - openbsd-netcat
+    - pandoc
+    - postgresql
+    - powertop
+    - qrencode
+    - qt5-webkit
+    - remmina
+    - s3cmd
+    - sg3_utils
+    - sshfs
+    - strace
+    - the_silver_searcher
+    - thunar
+    - thunar-archive-plugin
+    - thunar-volman
+    - tigervnc
+    - traceroute
+    - unetbootin
+    # aur deps
+    - perl-test-pod
+
+  - name: import keys needed for AUR packages
+    gpg_import: key_id="{{ item }}" servers=pgp.mit.edu
+    with_items:
+    - "1EB2638FF56C0C53" # cower, needed for pacaur
+    become: yes
+    become_user: ken
+
+  - name: build common AUR packages
+    packer: name={{ item }}
+    with_items:
+    - pacaur
+#    - git-crypt
+    - google-chrome
+    - google-talkplugin
+    - gtkterm-git
+    - vmware-ovftool
+    - xsnap
+
+  - service: name=docker enabled=yes state=started
+
+  - user: name=ken groups=docker append=yes
+
+  - name: create app symlinks
+    file: src=/usr/bin/{{ item.src }} dest=/usr/bin/{{ item.dest }} state=link
+    with_items:
+    - { src: google-chrome-stable, dest: google-chrome }
+    - { src: vim, dest: vi }
+
+  - name: create app symlinks
+    file: src={{ item.src }} dest=/usr/local/bin/{{ item.dest }} state=link
+    with_items:
+    - { src: /bin/true, dest: xfdesktop }
