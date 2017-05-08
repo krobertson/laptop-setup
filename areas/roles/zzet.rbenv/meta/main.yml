@@ -4,7 +4,7 @@ galaxy_info:
   description: rbenv
   company: Undev
   license: MIT
-  min_ansible_version: 1.7.1
+  min_ansible_version: 2.2.0
   version: 0.2
 
   platforms:
@@ -20,6 +20,9 @@ galaxy_info:
         - saucy    # 13.10
         - trusty   # 14.04
         # - utopic   # 14.10
+    - name: Fedora
+      versions:
+        - 24
   categories:
     - development
     - system
