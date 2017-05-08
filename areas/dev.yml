@@ -14,6 +14,7 @@
     - diffstat
     - ditaa
     - docker
+    - docker-compose
     - dosfstools
     - exfat-utils
     - filelight
@@ -25,6 +26,7 @@
     - graphviz
     - gvim
     - jq
+    - keybase
     - libcap
     - meld
     - mercurial
@@ -79,7 +81,9 @@
     - { src: google-chrome-stable, dest: google-chrome }
     - { src: vim, dest: vi }
 
+    # Tweaks for XFCE + i3
   - name: create app symlinks
     file: src={{ item.src }} dest=/usr/local/bin/{{ item.dest }} state=link
     with_items:
     - { src: /bin/true, dest: xfdesktop }
+  - pacman: name=xfce4-panel state=absent

@@ -11,71 +11,26 @@
   - name: install common packages
     pacman: name={{ item }}
     with_items:
-    - jdk7-openjdk
     - brasero
-    - chrpath
-    - cmake
-    - colordiff
-    - cpio
     - cups
-    - diffstat
-    - ditaa
-    - docker
-    - dosfstools
-    - exfat-utils
-    - filelight
-    - flashplugin
     - gimp
-    - go
-    - gparted
-    - gperftools
-    - gptfdisk
-    - graphviz
-    - gvim
     - handbrake
     - intltool
-    - jq
-    - libcap
     - libdvdcss
     - libreoffice-fresh
-    - meld
-    - mercurial
     - mkvtoolnix-gui
     - mtpfs
     - mtr
-    - net-tools
-    - networkmanager-openvpn
     - nfs-utils
     - ogmrip
-    - openbsd-netcat
-    - pandoc
     - perl-image-exiftool
-    - postgresql
-    - powertop
-    - qrencode
-    - qt5-webkit
     - rawtherapee
-    - remmina
-    - s3cmd
-    - sg3_utils
     - simplescreenrecorder
-    - sshfs
-    - strace
-    - the_silver_searcher
-    - thunar
-    - thunar-archive-plugin
-    - thunar-volman
-    - tigervnc
-    - traceroute
     - transmission-gtk
-    - udisks
-    - unetbootin
-    - vagrant
+    #- vagrant
     - vlc
     - wireshark-cli
     - wireshark-gtk
-    # aur deps
-    - perl-test-pod
 
   - name: import keys needed for AUR packages
     gpg_import: key_id="{{ item }}" servers=pgp.mit.edu
@@ -88,32 +43,15 @@
   - name: build common AUR packages
     packer: name={{ item }}
     with_items:
-    - pacaur
-    - dpkg
+    #- dpkg
     - dropbox
-    - git-crypt
-    - google-chrome
-    - google-talkplugin
-    - gtkterm-git
     - ledger
     - packer-io
     - spotify
     - thunar-dropbox
-    - vmware-ovftool
-    - vmware-patch
-    - xsnap
     - zoom
 
   - service: name=nfs-server enabled=yes
-  - service: name=docker enabled=yes state=started
-
-  - user: name=ken groups=docker append=yes
-
-  - name: create app symlinks
-    file: src=/usr/bin/{{ item.src }} dest=/usr/bin/{{ item.dest }} state=link
-    with_items:
-    - { src: google-chrome-stable, dest: google-chrome }
-    - { src: vim, dest: vi }
 
   handlers:
   - name: update pacman caches

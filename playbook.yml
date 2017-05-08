@@ -18,6 +18,6 @@
 - include: areas/emacs.yml
 # - include: areas/virtualization.yml
 - include: areas/dotfiles.yml
-#- include: areas/ruby.yml
-# - include: areas/apps.yml
 - include: areas/dev.yml
+#- include: areas/apps.yml
+- include: areas/ruby.yml

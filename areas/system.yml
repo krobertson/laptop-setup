@@ -10,10 +10,14 @@
     - { name: "vm.swappiness", value: 1 }
     - { name: "vm.vfs_cache_pressure", value: 50 }
 
+    # Disable PC Speaker
+  - template: src=templates/module_pcspeaker.conf dest=/etc/modprobe.d/pcspkr.conf owner=root group=root mode=0644
+
     # Install and configure network manager
   #- pacman: name=networkmanager
   #- pacman: name=network-manager-applet
   #- pacman: name=wpa_supplicant
+  #- pacman: name=networkmanager-openvpn
   #- service: name=NetworkManager enabled=yes state=started
 
     # enable mdns
