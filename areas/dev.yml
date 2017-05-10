@@ -34,6 +34,7 @@
     - net-tools
     - openbsd-netcat
     - pandoc
+    - phantomjs
     - postgresql
     - powertop
     - qrencode
