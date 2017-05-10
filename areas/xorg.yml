@@ -46,16 +46,13 @@
     - xautolock
     - xbindkeys
     - xcb-util
-    - xf86-input-evdev
     - xf86-input-libinput
-    #- xf86-input-synaptics
-    #- xf86-video-intel
+    - xf86-input-synaptics
     - xfce4
+    - xfce4-goodies
     - xorg-server
     - xorg-server-common
     - xorg-server-devel
-    - xorg-server-utils
-    - xorg-server-xephyr
     - xorg-xfontsel
     - xorg-xinit
     - xorg-xinput
@@ -76,8 +73,7 @@
   - packer: name=urxvt-font-size-git
 
     # xorg configuration files
-  #- template: src=templates/xorg_intel.conf dest=/etc/X11/xorg.conf.d/20-intel.conf owner=root group=root mode=0644
-  #- template: src=templates/xorg_libinput.conf dest=/etc/X11/xorg.conf.d/90-libinput.conf owner=root group=root mode=0644
+  - template: src=templates/xorg_libinput.conf dest=/etc/X11/xorg.conf.d/90-libinput.conf owner=root group=root mode=0644
 
     # read-edid can be used to detect which display is attached. I don't really
     # use this right now, but still keep it installed if I add my display_switch
@@ -86,4 +82,4 @@
 
     # Configure sddm
   - template: src=templates/sddm.conf dest=/etc/sddm.conf owner=root group=root mode=0644
-  #- service: name=sddm enabled=yes
+  - service: name=sddm enabled=yes

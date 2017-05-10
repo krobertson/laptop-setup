@@ -32,6 +32,7 @@
     - mercurial
     - mtr
     - net-tools
+    - nodejs
     - openbsd-netcat
     - pandoc
     - phantomjs

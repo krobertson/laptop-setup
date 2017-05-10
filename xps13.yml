@@ -1,0 +1,6 @@
+---
+# Configure XPS13
+- include: _base.yml
+- include: specific/laptop.yml
+- include: specific/xps13.yml
+- include: _main.yml

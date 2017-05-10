@@ -10,15 +10,8 @@
     - { name: "vm.swappiness", value: 1 }
     - { name: "vm.vfs_cache_pressure", value: 50 }
 
-    # Disable PC Speaker
-  - template: src=templates/module_pcspeaker.conf dest=/etc/modprobe.d/pcspkr.conf owner=root group=root mode=0644
-
-    # Install and configure network manager
-  #- pacman: name=networkmanager
-  #- pacman: name=network-manager-applet
-  #- pacman: name=wpa_supplicant
-  #- pacman: name=networkmanager-openvpn
-  #- service: name=NetworkManager enabled=yes state=started
+    # Disable some common modules
+  - template: src=templates/module_blacklist.conf dest=/etc/modprobe.d/blacklist.conf owner=root group=root mode=0644
 
     # enable mdns
   - pacman: name=nss-mdns
@@ -27,3 +20,6 @@
     # timesyncd for time synchronization
   - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
   - service: name=systemd-timesyncd enabled=yes state=started
+
+    # allow non-root to access the KeepKey when plugged in
+  - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
