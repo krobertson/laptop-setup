@@ -1,0 +1,30 @@
+---
+- name: Supermicro workstation settings
+  hosts: all
+
+  tasks:
+    # boot stuff
+    - template: src=templates/vconsole.conf dest=/etc/vconsole.conf owner=root group=root mode=0644
+    - template: src=templates/supermicro/mkinitcpio.conf dest=/etc/mkinitcpio.conf owner=root group=root mode=0644
+      notify:
+        - build initramfs
+
+    # install xorg packages
+    - name: install xorg packages
+      pacman: name={{ item }}
+      with_items:
+        - nvidia
+        - nvidia-settings
+
+    # Create and manage zfs datasets
+    - zfs: name=zroot/data/docker mountpoint=/var/lib/docker state=present compression=lz4 atime=off
+    - zfs: name=zroot/data/src    mountpoint=/home/ken/src   state=present compression=lz4 atime=off
+
+    # Set ownership
+    - file: path=/home/ken/src state=directory owner=ken group=users
+
+  handlers:
+    - name: build initramfs
+      shell: mkinitcpio -p linux
+
+- include: ../areas/virtualization.yml

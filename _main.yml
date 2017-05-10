@@ -1,0 +1,8 @@
+---
+# Run though common setup for all my systems.
+- include: areas/xorg.yml
+- include: areas/emacs.yml
+- include: areas/dotfiles.yml
+- include: areas/dev.yml
+- include: areas/apps.yml
+- include: areas/ruby.yml

@@ -25,6 +25,7 @@
     - ogmrip
     - perl-image-exiftool
     - rawtherapee
+    - slack-desktop
     - simplescreenrecorder
     - transmission-gtk
     #- vagrant

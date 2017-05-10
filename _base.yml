@@ -1,0 +1,13 @@
+---
+  # Install other pre-requisites needed for the full install run.
+- hosts: all
+  tasks:
+    - pacman: name={{ item }}
+      with_items:
+        - python
+        - ruby
+        - rsync
+        - zip
+        - unzip
+- include: areas/aur.yml
+- include: areas/system.yml

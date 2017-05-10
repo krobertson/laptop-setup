@@ -1,0 +1,4 @@
+---
+# Configure VMware VM environment
+- include: _base.yml
+- include: _main.yml

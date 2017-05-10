@@ -1,0 +1,31 @@
+---
+- name: settings specific to my laptops
+  hosts: all
+
+  tasks:
+    # Install and configure network manager
+    - pacman: name=networkmanager
+    - pacman: name=network-manager-applet
+    - pacman: name=wpa_supplicant
+    - pacman: name=networkmanager-openvpn
+    - service: name=NetworkManager enabled=yes state=started
+
+    # Power management
+    - pacman: name=tlp
+    - template: src=templates/tlp.conf dest=/etc/default/tlp owner=root group=root mode=0644
+    - service: name=tlp enabled=yes state=started
+
+    # configure the root mount
+    - mount: name=/ src=/dev/mapper/vgcrypt-root fstype=ext4 opts="defaults,noatime,data=ordered" state=present
+    - service: name=fstrim.timer enabled=yes state=started
+
+    # configure swap
+    - mount: name=none src=/dev/mapper/vgcrypt-swap fstype=swap state=present
+
+    # Plymouth for graphical boot
+    - packer: name=plymouth
+    - packer: name=plymouth-theme-dark-arch
+    - pacman: name=ttf-dejavu # needed by plymouth
+    - template: src=templates/plymouthd.conf dest=/etc/plymouth/plymouthd.conf owner=root group=root mode=0644
+
+- include: ../areas/virtualization.yml

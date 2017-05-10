@@ -1,0 +1,5 @@
+---
+# Configure Supermicro workstation
+- include: _base.yml
+- include: specific/supermicro.yml
+- include: _main.yml

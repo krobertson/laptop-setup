@@ -1,0 +1,28 @@
+---
+- name: Dell XPS13 settings
+  hosts: all
+
+  tasks:
+    # Disable psmouse module
+    - template: src=templates/xps13/module_psmouse.conf dest=/etc/modprobe.d/psmouse.conf owner=root group=root mode=0644
+
+    # Module configuration
+    - template: src=templates/xps13/module_sound.conf dest=/etc/modprobe.d/snd_hda_intel.conf owner=root group=root mode=0644
+    - template: src=templates/xps13/module_usb.conf dest=/etc/modprobe.d/usbcore.conf owner=root group=root mode=0644
+
+    # boot stuff
+    - template: src=templates/vconsole.conf dest=/etc/vconsole.conf owner=root group=root mode=0644
+    - template: src=templates/xps13/mkinitcpio.conf dest=/etc/mkinitcpio.conf owner=root group=root mode=0644
+      notify:
+        - build initramfs
+
+    # install xorg packages
+    - name: install xorg packages
+      pacman: name={{ item }}
+      with_items:
+        - xf86-video-intel
+        - xorg-xbacklight
+
+  handlers:
+    - name: build initramfs
+      shell: mkinitcpio -p linux
