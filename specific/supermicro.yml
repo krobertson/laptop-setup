@@ -8,6 +8,7 @@
     - template: src=templates/supermicro/mkinitcpio.conf dest=/etc/mkinitcpio.conf owner=root group=root mode=0644
       notify:
         - build initramfs
+    - template: src=templates/supermicro/pacman_nvidia.conf dest=/etc/pacman.d/hooks/nvidia.hook owner=root group=root mode=0644
 
     # install xorg packages
     - name: install xorg packages
