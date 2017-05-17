@@ -5,6 +5,13 @@
       env: user
       version: v1.1.0
       ruby_version: 2.3.4
+      rubies:
+        - version: 2.3.3
+          env:
+            PKG_CONFIG_PATH: /usr/lib/openssl-1.0/pkgconfig:/usr/lib/pkgconfig
+        - version: 2.3.4
+          env:
+            PKG_CONFIG_PATH: /usr/lib/openssl-1.0/pkgconfig:/usr/lib/pkgconfig
   roles:
     - role: zzet.rbenv
       rbenv_users:
