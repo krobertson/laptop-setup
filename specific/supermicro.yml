@@ -8,7 +8,15 @@
     - template: src=templates/supermicro/mkinitcpio.conf dest=/etc/mkinitcpio.conf owner=root group=root mode=0644
       notify:
         - build initramfs
+
+    - file: path=/etc/pacman.d/hooks state=directory
     - template: src=templates/supermicro/pacman_nvidia.conf dest=/etc/pacman.d/hooks/nvidia.hook owner=root group=root mode=0644
+
+    # Install and configure network manager
+    - pacman: name=networkmanager
+    - pacman: name=network-manager-applet
+    - pacman: name=networkmanager-openvpn
+    - service: name=NetworkManager enabled=yes state=started
 
     # install xorg packages
     - name: install xorg packages
@@ -23,6 +31,12 @@
 
     # Set ownership
     - file: path=/home/ken/src state=directory owner=ken group=users
+
+    # install and configure docker to us zfs
+    - pacman: name=docker
+    - file: path=/etc/systemd/system/docker.service.d state=directory
+    - template: src=templates/zfs-systemd-docker.conf dest=/etc/systemd/system/docker.service.d/zfs-storage.conf
+    - service: name=docker enabled=yes state=started
 
   handlers:
     - name: build initramfs
