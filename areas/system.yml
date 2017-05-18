@@ -4,22 +4,26 @@
 
   tasks:
     # sysctl
-  - sysctl: name="{{ item.name }}" value={{ item.value }} sysctl_set=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
-    with_items:
-      # swappiness
-    - { name: "vm.swappiness", value: 1 }
-    - { name: "vm.vfs_cache_pressure", value: 50 }
+    - sysctl: name="{{ item.name }}" value={{ item.value }} sysctl_set=yes sysctl_file=/etc/sysctl.d/99-sysctl.conf
+      with_items:
+        # swappiness
+        - { name: "vm.swappiness", value: 1 }
+        - { name: "vm.vfs_cache_pressure", value: 50 }
 
     # Disable some common modules
-  - template: src=templates/module_blacklist.conf dest=/etc/modprobe.d/blacklist.conf owner=root group=root mode=0644
+    - template: src=templates/module_blacklist.conf dest=/etc/modprobe.d/blacklist.conf owner=root group=root mode=0644
 
     # enable mdns
-  - pacman: name=nss-mdns
-  - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
+    - pacman: name=nss-mdns
+    - template: src=templates/nsswitch.conf dest=/etc/nsswitch.conf owner=root group=root mode=0644
 
     # timesyncd for time synchronization
-  - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
-  - service: name=systemd-timesyncd enabled=yes state=started
+    - template: src=templates/timesyncd.conf dest=/etc/systemd/timesyncd.conf owner=root group=root mode=0644
+    - service: name=systemd-timesyncd enabled=yes state=started
 
     # allow non-root to access the KeepKey when plugged in
-  - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
+    - template: src=templates/keepkey-udev.rules dest=/etc/udev/rules.d/90-keepkey.rules owner=root group=root mode=0644
+
+    # yubikey
+    - pacman: name=libu2f-host
+    - template: src=templates/yubikey-udev.rules dest=/etc/udev/rules.d/70-u2f.rules owner=root group=root mode=0644

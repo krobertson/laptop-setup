@@ -25,10 +25,9 @@
     - ogmrip
     - perl-image-exiftool
     - rawtherapee
-    - slack-desktop
     - simplescreenrecorder
     - transmission-gtk
-    #- vagrant
+    - vagrant
     - vlc
     - wireshark-cli
     - wireshark-gtk
@@ -37,7 +36,6 @@
     gpg_import: key_id="{{ item }}" servers=pgp.mit.edu
     with_items:
     - "1EB2638FF56C0C53" # cower, needed for pacaur
-    - "702353E0F7E48EDB" # ncurses5-compat-libs, needed for vmware-patch
     become: yes
     become_user: ken
 
@@ -48,9 +46,9 @@
     - dropbox
     - ledger
     - packer-io
+    - slack-desktop
     - spotify
     - thunar-dropbox
-    - zoom
 
   - service: name=nfs-server enabled=yes
 
