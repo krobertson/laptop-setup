@@ -7,6 +7,7 @@
     pacman: name={{ item }}
     with_items:
     - jdk7-openjdk
+    - aws-cli
     - chrpath
     - cmake
     - colordiff

@@ -11,6 +11,7 @@
   - name: install common packages
     pacman: name={{ item }}
     with_items:
+    - bind-tools
     - brasero
     - cups
     - gimp
@@ -42,6 +43,7 @@
   - name: build common AUR packages
     packer: name={{ item }}
     with_items:
+    - bluejeans
     #- dpkg
     - dropbox
     - ledger
