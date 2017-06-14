@@ -16,6 +16,7 @@
     - cups
     - gimp
     - handbrake
+    - icedtea-web
     - intltool
     - libdvdcss
     - libreoffice-fresh
