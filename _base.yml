@@ -6,6 +6,7 @@
       with_items:
         - python
         - ruby
+        - ruby-rake
         - rsync
         - zip
         - unzip

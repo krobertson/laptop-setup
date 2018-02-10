@@ -12,6 +12,7 @@
     - cmake
     - colordiff
     - cpio
+    - cpupower
     - diffstat
     - ditaa
     - docker
@@ -36,7 +37,6 @@
     - nodejs
     - openbsd-netcat
     - pandoc
-    - phantomjs
     - postgresql
     - powertop
     - qrencode
@@ -52,7 +52,6 @@
     - thunar-volman
     - tigervnc
     - traceroute
-    - unetbootin
     # aur deps
     - perl-test-pod
 
@@ -71,6 +70,7 @@
     - google-chrome
     - google-talkplugin
     - gtkterm-git
+    - unetbootin
     - vmware-ovftool
     - xsnap
 
@@ -83,10 +83,3 @@
     with_items:
     - { src: google-chrome-stable, dest: google-chrome }
     - { src: vim, dest: vi }
-
-    # Tweaks for XFCE + i3
-  - name: create app symlinks
-    file: src={{ item.src }} dest=/usr/local/bin/{{ item.dest }} state=link
-    with_items:
-    - { src: /bin/true, dest: xfdesktop }
-  - pacman: name=xfce4-panel state=absent

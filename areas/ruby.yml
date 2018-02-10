@@ -3,13 +3,13 @@
   vars:
     rbenv:
       env: user
-      version: v1.1.0
-      default_ruby: 2.3.4
+      version: v1.1.1
+      default_ruby: 2.4.3
       rubies:
-        - version: 2.3.3
+        - version: 2.3.6
           env:
             PKG_CONFIG_PATH: /usr/lib/openssl-1.0/pkgconfig:/usr/lib/pkgconfig
-        - version: 2.3.4
+        - version: 2.4.3
           env:
             PKG_CONFIG_PATH: /usr/lib/openssl-1.0/pkgconfig:/usr/lib/pkgconfig
   roles:
@@ -27,7 +27,7 @@
         repo: "https://github.com/sstephenson/rbenv-default-gems.git"
         version: "master"
       - name: "rbenv-installer"
-        repo: "https://github.com/fesplugas/rbenv-installer.git"
+        repo: "https://github.com/rbenv/rbenv-installer.git"
         version: "master"
       - name: "rbenv-update"
         repo: "https://github.com/rkh/rbenv-update.git"

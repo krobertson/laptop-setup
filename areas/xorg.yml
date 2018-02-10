@@ -6,80 +6,80 @@
     # Install fonts. These are done early, before X itself, to ensure a cleaner
     # install for the desired ones and avoid conflicts with any others that get
     # optionally pulled in.
-  - pacman: name={{ item }}
-    with_items:
-    - gsfonts
-    - terminus-font
-    - ttf-dejavu
-    - ttf-freefont
-    - wqy-bitmapfont
-  - packer: name={{ item }}
-    with_items:
-    - powerline-fonts-git
-    - terminus-font-ttf
-    - ttf-font-awesome
-    - ttf-google-fonts-git
-    - ttf-unifont
+    - pacman: name={{ item }}
+      with_items:
+        - bdf-unifont
+        - gsfonts
+        - terminus-font
+        - ttf-dejavu
+        - ttf-freefont
+        - wqy-bitmapfont
+    - packer: name={{ item }}
+      with_items:
+        - otf-font-awesome
+        - powerline-fonts-git
+        - terminus-font-ttf
+        - ttf-google-fonts-git
 
     # Install common X apps
-  - name: install xorg packages
-    pacman: name={{ item }}
-    with_items:
-    - alsa-utils
-    - cairo
-    - conky
-    - dmenu
-    - firefox
-    - flashplugin
-    - fontconfig
-    - freetype2
-    - gstreamer
-    - nitrogen
-    - pavucontrol
-    - pulseaudio
-    - rxvt-unicode-terminfo
-    - scrot
-    - sddm
-    - seahorse
-    - startup-notification
-    - unclutter
-    - xautolock
-    - xbindkeys
-    - xcb-util
-    - xf86-input-libinput
-    - xf86-input-synaptics
-    - xfce4
-    - xorg-server
-    - xorg-server-common
-    - xorg-server-devel
-    - xorg-xdpyinfo
-    - xorg-xfontsel
-    - xorg-xinit
-    - xorg-xinput
-    - xorg-xlsfonts
-    - xorg-xprop
-    - xscreensaver
-    - xsel
-    - xterm
-    - xvkbd
-  - packer: name={{ item }}
-    with_items:
-    - i3-gaps-git
-    - xcalib
+    - name: install xorg packages
+      pacman: name={{ item }}
+      with_items:
+        - alsa-utils
+        - cairo
+        - conky
+        - dmenu
+        - firefox
+        - flashplugin
+        - fontconfig
+        - freetype2
+        - gstreamer
+        - nitrogen
+        - pavucontrol
+        - pulseaudio
+        - rxvt-unicode-terminfo
+        - scrot
+        - sddm
+        - seahorse
+        - startup-notification
+        - unclutter
+        - xautolock
+        - xbindkeys
+        - xcb-util
+        - xf86-input-libinput
+        - xf86-input-synaptics
+        - xfce4-notifyd
+        - xorg-server
+        - xorg-server-common
+        - xorg-server-devel
+        - xorg-xdpyinfo
+        - xorg-xfontsel
+        - xorg-xinit
+        - xorg-xinput
+        - xorg-xlsfonts
+        - xorg-xprop
+        - xorgproto
+        - xscreensaver
+        - xsel
+        - xterm
+    - packer: name={{ item }}
+      with_items:
+        - i3-gaps-next-git
+        - xcalib
 
     # urxvt
-  - packer: name=rxvt-unicode-patched
-  - pacman: name=urxvt-perls
-  - packer: name=urxvt-font-size-git
+    - packer: name=rxvt-unicode-patched
+    - pacman: name=urxvt-perls
+    - packer: name=urxvt-font-size-git
 
     # xorg configuration files
-  - template: src=templates/xorg_libinput.conf dest=/etc/X11/xorg.conf.d/90-libinput.conf owner=root group=root mode=0644
+    - template: src=templates/xorg_libinput.conf dest=/etc/X11/xorg.conf.d/90-libinput.conf owner=root group=root mode=0644
 
     # read-edid can be used to detect which display is attached. I don't really
     # use this right now, but still keep it installed if I add my display_switch
     # script back.
-  - pacman: name=read-edid
+    - pacman: name=read-edid
 
     # Configure sddm
-  - template: src=templates/sddm.conf dest=/etc/sddm.conf owner=root group=root mode=0644
-  - service: name=sddm enabled=yes
+    - template: src=templates/sddm.conf dest=/etc/sddm.conf owner=root group=root mode=0644
+    - service: name=sddm enabled=yes

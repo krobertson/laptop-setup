@@ -29,7 +29,6 @@
     - rawtherapee
     - simplescreenrecorder
     - transmission-gtk
-    - vagrant
     - vlc
     - wireshark-cli
     - wireshark-gtk
@@ -45,7 +44,6 @@
     packer: name={{ item }}
     with_items:
     - bluejeans
-    #- dpkg
     - dropbox
     - ledger
     - packer-io
